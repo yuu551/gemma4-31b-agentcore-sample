@@ -1,0 +1,29 @@
+[project]
+name = "agentic-rag-agent"
+version = "0.1.0"
+description = "Agentic RAG Agent with Gemma 4 31B"
+requires-python = ">=3.13"
+dependencies = [
+    "strands-agents[openai]~=1.43.0",
+    "bedrock-agentcore[strands-agents]~=1.14.1",
+    "aws-bedrock-token-generator~=1.1.0",
+    "mcp-proxy-for-aws>=1.1.5",
+    "boto3>=1.43.0",
+]
+
+[tool.poetry]
+name = "agentic-rag-agent"
+version = "0.1.0"
+description = "Agentic RAG Agent with Gemma 4 31B"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+strands-agents = {version = "~1.43.0", extras = ["openai"]}
+bedrock-agentcore = {version = "~1.14.1", extras = ["strands-agents"]}
+aws-bedrock-token-generator = "~1.1.0"
+mcp-proxy-for-aws = ">=1.1.5"
+boto3 = ">=1.43.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

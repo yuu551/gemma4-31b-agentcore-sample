@@ -1,0 +1,107 @@
+[
+  {
+    "id": "q01",
+    "question": "リモートワークは週何日まで可能ですか？申請方法も教えてください。",
+    "category": "hr",
+    "expected_doc": "リモートワーク規程",
+    "ground_truth": "週3日まで可能。HRシステムから前日17時までに申請する。"
+  },
+  {
+    "id": "q02",
+    "question": "タクシー代の経費精算で事前承認が必要なのはいくらからですか？",
+    "category": "finance",
+    "expected_doc": "経費精算ガイドライン",
+    "ground_truth": "1回5,000円以上の場合は事前承認が必要。"
+  },
+  {
+    "id": "q03",
+    "question": "セキュリティインシデントを発見したらどこに連絡すればいいですか？",
+    "category": "security",
+    "expected_doc": "セキュリティインシデント対応手順",
+    "ground_truth": "CSIRTチーム（内線9999、メール: csirt@example.co.jp）に即座に報告する。"
+  },
+  {
+    "id": "q04",
+    "question": "プルリクエストのレビューは何時間以内に着手する必要がありますか？",
+    "category": "engineering",
+    "expected_doc": "コードレビューガイドライン",
+    "ground_truth": "24時間以内に着手する。"
+  },
+  {
+    "id": "q05",
+    "question": "本番デプロイが禁止されている曜日はありますか？",
+    "category": "engineering",
+    "expected_doc": "本番デプロイ手順書",
+    "ground_truth": "金曜日のデプロイは原則禁止。"
+  },
+  {
+    "id": "q06",
+    "question": "有給休暇は入社何ヶ月後に何日付与されますか？",
+    "category": "hr",
+    "expected_doc": "休暇取得規程",
+    "ground_truth": "入社6ヶ月後に10日付与。以降毎年1日加算（上限20日）。"
+  },
+  {
+    "id": "q07",
+    "question": "500万円以上の調達に必要な承認レベルを教えてください。",
+    "category": "finance",
+    "expected_doc": "調達・購買プロセス",
+    "ground_truth": "取締役会承認が必要。"
+  },
+  {
+    "id": "q08",
+    "question": "データ分類でレベル3に該当するのはどのような情報ですか？",
+    "category": "security",
+    "expected_doc": "データ分類基準",
+    "ground_truth": "社外秘。顧客情報、契約書、技術仕様書が該当。暗号化保存が必須。"
+  },
+  {
+    "id": "q09",
+    "question": "災害復旧のRTO（目標復旧時間）は何時間ですか？",
+    "category": "security",
+    "expected_doc": "災害復旧計画（DR計画）",
+    "ground_truth": "4時間以内。RPOは1時間以内。"
+  },
+  {
+    "id": "q10",
+    "question": "人事評価の評価軸とその比率を教えてください。",
+    "category": "hr",
+    "expected_doc": "人事評価制度",
+    "ground_truth": "業績（60%）と行動評価（40%）の2軸。"
+  },
+  {
+    "id": "q11",
+    "question": "システム監視でCPU使用率何%以上でCriticalアラートになりますか？",
+    "category": "engineering",
+    "expected_doc": "システム監視・アラート基準",
+    "ground_truth": "CPU使用率95%以上でCritical。"
+  },
+  {
+    "id": "q12",
+    "question": "外部委託先の選定で必要な見積もりの最低数は？",
+    "category": "operations",
+    "expected_doc": "外部委託管理規程",
+    "ground_truth": "3社以上の見積比較が原則。"
+  },
+  {
+    "id": "q13",
+    "question": "Gitでホットフィックスはどのブランチから作成しますか？",
+    "category": "engineering",
+    "expected_doc": "Git ブランチ戦略",
+    "ground_truth": "mainブランチからhotfix/ブランチを作成する。"
+  },
+  {
+    "id": "q14",
+    "question": "海外出張の申請は何ヶ月前までに必要ですか？",
+    "category": "finance",
+    "expected_doc": "出張規程",
+    "ground_truth": "1ヶ月前までに申請。部門長および海外安全管理室の承認が必要。"
+  },
+  {
+    "id": "q15",
+    "question": "パスワードの最低文字数と必要な文字種を教えてください。",
+    "category": "security",
+    "expected_doc": "情報セキュリティ基本方針",
+    "ground_truth": "12文字以上で英数字記号を含める。MFAも全システムで必須。"
+  }
+]

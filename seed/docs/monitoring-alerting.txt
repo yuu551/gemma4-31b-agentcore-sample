@@ -1,0 +1,1 @@
+本番システムの監視はDatadogで一元管理します。アラートレベルはInfo、Warning、Critical、Emergencyの4段階です。CPU使用率80%以上でWarning、95%以上でCritical。エラーレート5%以上でWarning、10%以上でCritical。レスポンスタイム3秒以上でWarning。Critical以上は当番エンジニアに自動通知されます。Emergency時はインシデントコマンダーが招集されます。

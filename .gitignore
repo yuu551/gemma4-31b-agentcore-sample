@@ -1,0 +1,28 @@
+# amplify
+node_modules
+.amplify
+amplify_outputs*
+amplifyconfiguration*
+
+# build
+dist
+
+# env
+.env
+.env.*
+
+# misc
+excalidraw.log
+*.log
+
+# package managers
+pnpm-lock.yaml
+
+# python
+__pycache__
+*.pyc
+.venv
+
+# OS
+.DS_Store
+blog.md

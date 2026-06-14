@@ -1,0 +1,414 @@
+{
+  "summary": {
+    "faithfulness": {
+      "avg": 5.0,
+      "min": 5,
+      "max": 5,
+      "count": 15
+    },
+    "relevancy": {
+      "avg": 5.0,
+      "min": 5,
+      "max": 5,
+      "count": 15
+    },
+    "completeness": {
+      "avg": 4.47,
+      "min": 3,
+      "max": 5,
+      "count": 15
+    }
+  },
+  "results": [
+    {
+      "id": "q01",
+      "question": "リモートワークは週何日まで可能ですか？申請方法も教えてください。",
+      "category": "hr",
+      "expected_doc": "リモートワーク規程",
+      "ground_truth": "週3日まで可能。HRシステムから前日17時までに申請する。",
+      "answer": "リモートワークは**週3日まで**可能です。\n\n**申請方法：**\nHRシステムから、利用日の**前日17時まで**に申請を行ってください。\n\nなお、実施にあたっては以下の点にご留意ください。\n- Slackのステータスを「リモート」に設定すること。\n- コアタイム（10:00-15:00）は即応可能な状態を維持すること。\n- VPN接続が必須となります。\n\n参照: [リモートワーク規程](s3://example-docs-bucket/remote-work-policy.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "リモートワーク 週 何日 申請方法",
+            "category": "hr"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"リモートワーク規程\",\n    \"category\": \"hr\",\n    \"content\": \"当社のリモートワーク規程について。週3日までリモートワークが可能です。申請はHRシステムから前日17時までに行ってください。リモートワーク中はSlackのステータスを「リモート」に設定し、コアタイム（10:00-15:00）は即応可能な状態を維持してください。自宅以外の場所での業務は、セキュリティ要件を満たす場合に限り許可されます。VPN接続が必須です。\",\n    \"score\": 0.7418,\n    \"s3_uri\": \"s3://example-docs-bucket/remote-work-policy.txt\"\n  },\n  {\n    \"title\": \"新入社員オンボーディングチェックリスト\",\n    \"category\": \"hr\",\n    \"content\": \"入社初日: IDカード受領、PCセットアップ、メールアカウント設定。入社1週目: 全社オリエンテーション、部門紹介、メンター面談。入社1ヶ月: 情報セキュリティ研修、コンプライアンス研修、業務システム操作研修。入社3ヶ月: 試用期間面談、目標設定面談。各タスクの完了はHRシステムでチェックし、人事部が進捗を管理します。\",\n    \"score\": 0.6195,\n    \"s3_uri\": \"s3://example-docs-bucket/onboarding-checklist.txt\"\n  },\n  {\n    \"title\": \"休暇取得規程\",\n    \"category\": \"hr\",\n    \"content\": \"年次有給休暇は入社6ヶ月後に10日付与され、以降毎年1日ずつ加算されます（上限20日）。5日以上の連続休暇は2週間前までに申請してください。夏季休暇（3日）、年末年始休暇（12/29-1/3）は全社一斉取得です。傷病休暇は年5日まで有給で取得可能です。育児・介護休暇は法定通り取得できます。\",\n    \"score\": 0.6078,\n    "
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解に含まれる「週3日まで」「HRシステムから前日17時までに申請」という情報を完全に網羅し、正しいドキュメントを参照しており、さらに補足的な有用情報も提供されているため。"
+      },
+      "rag_time_seconds": 6.86
+    },
+    {
+      "id": "q02",
+      "question": "タクシー代の経費精算で事前承認が必要なのはいくらからですか？",
+      "category": "finance",
+      "expected_doc": "経費精算ガイドライン",
+      "ground_truth": "1回5,000円以上の場合は事前承認が必要。",
+      "answer": "タクシー代の経費精算において、事前承認が必要なのは**1回5,000円以上**の場合です。\n\n参照: [経費精算ガイドライン](s3://example-docs-bucket/expense-report.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "タクシー代 経費精算 事前承認 金額",
+            "category": "finance"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"経費精算ガイドライン\",\n    \"category\": \"finance\",\n    \"content\": \"経費精算は月末締め翌月5日までに申請してください。交通費は実費精算が原則ですが、タクシー利用は1回5,000円以上の場合は事前承認が必要です。接待交際費は部長以上の事前承認が必須で、1人あたり10,000円を上限とします。領収書の原本はPDF化してシステムにアップロードし、原本は経理部へ提出してください。\",\n    \"score\": 0.8355,\n    \"s3_uri\": \"s3://example-docs-bucket/expense-report.txt\"\n  },\n  {\n    \"title\": \"調達・購買プロセス\",\n    \"category\": \"finance\",\n    \"content\": \"物品・サービスの調達は購買システムから申請してください。50万円未満は部長承認、50万円以上500万円未満は本部長承認、500万円以上は取締役会承認が必要です。新規取引先との契約は法務部のリーガルチェックが必須です。サブスクリプションサービスの契約はIT部門の事前承認が必要で、セキュリティ審査を通過した製品のみ利用可能です。\",\n    \"score\": 0.623,\n    \"s3_uri\": \"s3://example-docs-bucket/procurement-process.txt\"\n  },\n  {\n    \"title\": \"予算策定プロセス\",\n    \"category\": \"finance\",\n    \"content\": \"年間予算は毎年11月に策定を開始し、12月末に取締役会承認を経て確定します。各部門は前年実績比±10%を目安に予算案を提出してください。四半期ごとに予実管理レビューを実施し、予算消化率80%を超えた項目は経営企画部に報告が必要です。予備費は年間予算の5%を確保します。\",\n    \"score\": 0.6036,\n    \"s3_uri\": \"s3://amplify-agentic"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "回答は正解の内容と完全に一致しており、正しいドキュメントを参照して正確に回答しています。"
+      },
+      "rag_time_seconds": 6.07
+    },
+    {
+      "id": "q03",
+      "question": "セキュリティインシデントを発見したらどこに連絡すればいいですか？",
+      "category": "security",
+      "expected_doc": "セキュリティインシデント対応手順",
+      "ground_truth": "CSIRTチーム（内線9999、メール: csirt@example.co.jp）に即座に報告する。",
+      "answer": "セキュリティインシデントを発見した場合は、即座に**CSIRTチーム**へ報告してください。\n\n**【連絡先】**\n- **内線**: 9999\n- **メール**: csirt@example.co.jp\n\n**【報告内容】**\n報告の際は、以下の内容を含めてください。\n- 発見日時\n- 影響範囲\n- 対象システム\n- 発見経緯\n\n参照: [セキュリティインシデント対応手順](s3://example-docs-bucket/incident-response.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "セキュリティインシデント 連絡先",
+            "category": "security"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"セキュリティインシデント対応手順\",\n    \"category\": \"security\",\n    \"content\": \"セキュリティインシデントを発見した場合、即座にCSIRTチーム（内線: 9999、メール: csirt@example.co.jp）に報告してください。報告内容は発見日時、影響範囲、対象システム、発見経緯を含めてください。インシデント対応レベルはL1（軽微）からL4（重大）の4段階で分類されます。L3以上の場合はCISOへのエスカレーションが自動的に行われます。\",\n    \"score\": 0.8173,\n    \"s3_uri\": \"s3://example-docs-bucket/incident-response.txt\"\n  },\n  {\n    \"title\": \"情報セキュリティ基本方針\",\n    \"category\": \"security\",\n    \"content\": \"全社員は情報セキュリティ研修を年1回受講する義務があります。パスワードは12文字以上で英数字記号を含めてください。多要素認証（MFA）は全システムで必須です。社外秘情報を含むファイルの外部送信は暗号化が必須で、DLP（情報漏洩防止）ツールにより監視されます。USBメモリなどの外部記憶媒体の使用は原則禁止です。\",\n    \"score\": 0.6019,\n    \"s3_uri\": \"s3://example-docs-bucket/info-security-basics.txt\"\n  },\n  {\n    \"title\": \"データ分類基準\",\n    \"category\": \"security\",\n    \"content\": \"データは4段階に分類されます。レベル1（公開）: プレスリリース、公開ブログ記事。レベル2（社内）: 社内Wiki、議事録。レベル3（社外秘）: 顧客情報、契約書、技術仕様書。レベル4（極秘）: 経営戦略、M&A情報、未公開財務情報。レベル3以上のデータは暗号化保存が必須で、アクセスログが記録されます。\",\n "
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解に含まれる連絡先情報をすべて網羅しており、正しいドキュメントを参照した上で、報告内容などの有用な補足情報も提供されているため。"
+      },
+      "rag_time_seconds": 6.47
+    },
+    {
+      "id": "q04",
+      "question": "プルリクエストのレビューは何時間以内に着手する必要がありますか？",
+      "category": "engineering",
+      "expected_doc": "コードレビューガイドライン",
+      "ground_truth": "24時間以内に着手する。",
+      "answer": "プルリクエストのレビューは、24時間以内に着手する必要があります。\n\n参照：[コードレビューガイドライン](s3://example-docs-bucket/code-review-guidelines.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "プルリクエストのレビュー 着手 時間",
+            "category": "engineering"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"コードレビューガイドライン\",\n    \"category\": \"engineering\",\n    \"content\": \"プルリクエストは最低1名のレビュアー承認が必要です。セキュリティに関わる変更は2名以上の承認が必要です。レビューは24時間以内に着手してください。指摘はNit（軽微）、Suggestion（提案）、Required（必須）の3段階で明示してください。CIが通過していないPRはマージできません。mainブランチへの直接pushは禁止されています。\",\n    \"score\": 0.7049,\n    \"s3_uri\": \"s3://example-docs-bucket/code-review-guidelines.txt\"\n  },\n  {\n    \"title\": \"本番デプロイ手順書\",\n    \"category\": \"engineering\",\n    \"content\": \"本番デプロイはデプロイカレンダーに登録し、チームリードの承認を得てから実施してください。デプロイ時間帯は平日10:00-16:00を推奨します。金曜日のデプロイは原則禁止です。デプロイ前にステージング環境での動作確認を完了させてください。ロールバック手順を事前に確認し、デプロイ後30分はモニタリングを継続してください。\",\n    \"score\": 0.6563,\n    \"s3_uri\": \"s3://example-docs-bucket/deploy-procedure.txt\"\n  },\n  {\n    \"title\": \"システム監視・アラート基準\",\n    \"category\": \"engineering\",\n    \"content\": \"本番システムの監視はDatadogで一元管理します。アラートレベルはInfo、Warning、Critical、Emergencyの4段階です。CPU使用率80%以上でWarning、95%以上でCritical。エラーレート5%以上でWarning、10%以上でCritical。レスポンスタイム3"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解の情報と完全に一致しており、正しいドキュメントを参照して的確に回答しているため。"
+      },
+      "rag_time_seconds": 5.63
+    },
+    {
+      "id": "q05",
+      "question": "本番デプロイが禁止されている曜日はありますか？",
+      "category": "engineering",
+      "expected_doc": "本番デプロイ手順書",
+      "ground_truth": "金曜日のデプロイは原則禁止。",
+      "answer": "本番デプロイは、原則として**金曜日**が禁止されています。\n\nまた、推奨されるデプロイ時間帯は平日の10:00〜16:00とされています。\n\n参照: [本番デプロイ手順書](s3://example-docs-bucket/deploy-procedure.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "本番デプロイ 禁止 曜日",
+            "category": "engineering"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"本番デプロイ手順書\",\n    \"category\": \"engineering\",\n    \"content\": \"本番デプロイはデプロイカレンダーに登録し、チームリードの承認を得てから実施してください。デプロイ時間帯は平日10:00-16:00を推奨します。金曜日のデプロイは原則禁止です。デプロイ前にステージング環境での動作確認を完了させてください。ロールバック手順を事前に確認し、デプロイ後30分はモニタリングを継続してください。\",\n    \"score\": 0.8438,\n    \"s3_uri\": \"s3://example-docs-bucket/deploy-procedure.txt\"\n  },\n  {\n    \"title\": \"システム監視・アラート基準\",\n    \"category\": \"engineering\",\n    \"content\": \"本番システムの監視はDatadogで一元管理します。アラートレベルはInfo、Warning、Critical、Emergencyの4段階です。CPU使用率80%以上でWarning、95%以上でCritical。エラーレート5%以上でWarning、10%以上でCritical。レスポンスタイム3秒以上でWarning。Critical以上は当番エンジニアに自動通知されます。Emergency時はインシデントコマンダーが招集されます。\",\n    \"score\": 0.6025,\n    \"s3_uri\": \"s3://example-docs-bucket/monitoring-alerting.txt\"\n  },\n  {\n    \"title\": \"Git ブランチ戦略\",\n    \"category\": \"engineering\",\n    \"content\": \"GitFlowベースのブランチ戦略を採用します。mainブランチは常にデプロイ可能な状態を維持してください。機能開発はfeature/ブランチで行い、developブランチにマージします。リリース準備はrelease/"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解の内容を完全に網羅しており、正しいドキュメントを参照しています。さらに、推奨時間帯という有用な追加情報も提供されており、非常に高品質な回答です。"
+      },
+      "rag_time_seconds": 5.71
+    },
+    {
+      "id": "q06",
+      "question": "有給休暇は入社何ヶ月後に何日付与されますか？",
+      "category": "hr",
+      "expected_doc": "休暇取得規程",
+      "ground_truth": "入社6ヶ月後に10日付与。以降毎年1日加算（上限20日）。",
+      "answer": "年次有給休暇は、入社6ヶ月後に10日付与されます。\n\n参照: [休暇取得規程](s3://example-docs-bucket/leave-policy.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "有給休暇 付与 タイミング 日数",
+            "category": "hr"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"休暇取得規程\",\n    \"category\": \"hr\",\n    \"content\": \"年次有給休暇は入社6ヶ月後に10日付与され、以降毎年1日ずつ加算されます（上限20日）。5日以上の連続休暇は2週間前までに申請してください。夏季休暇（3日）、年末年始休暇（12/29-1/3）は全社一斉取得です。傷病休暇は年5日まで有給で取得可能です。育児・介護休暇は法定通り取得できます。\",\n    \"score\": 0.8201,\n    \"s3_uri\": \"s3://example-docs-bucket/leave-policy.txt\"\n  },\n  {\n    \"title\": \"新入社員オンボーディングチェックリスト\",\n    \"category\": \"hr\",\n    \"content\": \"入社初日: IDカード受領、PCセットアップ、メールアカウント設定。入社1週目: 全社オリエンテーション、部門紹介、メンター面談。入社1ヶ月: 情報セキュリティ研修、コンプライアンス研修、業務システム操作研修。入社3ヶ月: 試用期間面談、目標設定面談。各タスクの完了はHRシステムでチェックし、人事部が進捗を管理します。\",\n    \"score\": 0.5864,\n    \"s3_uri\": \"s3://example-docs-bucket/onboarding-checklist.txt\"\n  },\n  {\n    \"title\": \"リモートワーク規程\",\n    \"category\": \"hr\",\n    \"content\": \"当社のリモートワーク規程について。週3日までリモートワークが可能です。申請はHRシステムから前日17時までに行ってください。リモートワーク中はSlackのステータスを「リモート」に設定し、コアタイム（10:00-15:00）は即応可能な状態を維持してください。自宅以外の場所での業務は、セキュリティ要件を満たす場合に限り許可されます。VPN接続が必須です。\",\n    \"score\": 0.5749,\n    \"s3_ur"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 3,
+        "reasoning": "回答は正確であり、質問に直接回答し正しいドキュメントを参照していますが、正解に含まれる「以降の加算ルール」についての記述が欠けています。"
+      },
+      "rag_time_seconds": 5.63
+    },
+    {
+      "id": "q07",
+      "question": "500万円以上の調達に必要な承認レベルを教えてください。",
+      "category": "finance",
+      "expected_doc": "調達・購買プロセス",
+      "ground_truth": "取締役会承認が必要。",
+      "answer": "500万円以上の調達には、**取締役会承認**が必要です。\n\n参照: [調達・購買プロセス](s3://example-docs-bucket/procurement-process.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "500万円以上の調達 承認レベル",
+            "category": "finance"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"調達・購買プロセス\",\n    \"category\": \"finance\",\n    \"content\": \"物品・サービスの調達は購買システムから申請してください。50万円未満は部長承認、50万円以上500万円未満は本部長承認、500万円以上は取締役会承認が必要です。新規取引先との契約は法務部のリーガルチェックが必須です。サブスクリプションサービスの契約はIT部門の事前承認が必要で、セキュリティ審査を通過した製品のみ利用可能です。\",\n    \"score\": 0.7023,\n    \"s3_uri\": \"s3://example-docs-bucket/procurement-process.txt\"\n  },\n  {\n    \"title\": \"経費精算ガイドライン\",\n    \"category\": \"finance\",\n    \"content\": \"経費精算は月末締め翌月5日までに申請してください。交通費は実費精算が原則ですが、タクシー利用は1回5,000円以上の場合は事前承認が必要です。接待交際費は部長以上の事前承認が必須で、1人あたり10,000円を上限とします。領収書の原本はPDF化してシステムにアップロードし、原本は経理部へ提出してください。\",\n    \"score\": 0.5776,\n    \"s3_uri\": \"s3://example-docs-bucket/expense-report.txt\"\n  },\n  {\n    \"title\": \"予算策定プロセス\",\n    \"category\": \"finance\",\n    \"content\": \"年間予算は毎年11月に策定を開始し、12月末に取締役会承認を経て確定します。各部門は前年実績比±10%を目安に予算案を提出してください。四半期ごとに予実管理レビューを実施し、予算消化率80%を超えた項目は経営企画部に報告が必要です。予備費は年間予算の5%を確保します。\",\n    \"score\": 0.5681,\n    \"s3_uri\": \"s3://amplify-agenti"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解の情報を完全に網羅しており、正しいドキュメントを参照して正確に回答しています。"
+      },
+      "rag_time_seconds": 5.75
+    },
+    {
+      "id": "q08",
+      "question": "データ分類でレベル3に該当するのはどのような情報ですか？",
+      "category": "security",
+      "expected_doc": "データ分類基準",
+      "ground_truth": "社外秘。顧客情報、契約書、技術仕様書が該当。暗号化保存が必須。",
+      "answer": "データ分類でレベル3（社外秘）に該当するのは、以下のような情報です。\n\n*   顧客情報\n*   契約書\n*   技術仕様書\n\nまた、レベル3以上のデータについては、暗号化保存が必須となっており、アクセスログが記録されます。\n\n参照: [データ分類基準](s3://example-docs-bucket/data-classification.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "データ分類 レベル3",
+            "category": "security"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"データ分類基準\",\n    \"category\": \"security\",\n    \"content\": \"データは4段階に分類されます。レベル1（公開）: プレスリリース、公開ブログ記事。レベル2（社内）: 社内Wiki、議事録。レベル3（社外秘）: 顧客情報、契約書、技術仕様書。レベル4（極秘）: 経営戦略、M&A情報、未公開財務情報。レベル3以上のデータは暗号化保存が必須で、アクセスログが記録されます。\",\n    \"score\": 0.7448,\n    \"s3_uri\": \"s3://example-docs-bucket/data-classification.txt\"\n  },\n  {\n    \"title\": \"セキュリティインシデント対応手順\",\n    \"category\": \"security\",\n    \"content\": \"セキュリティインシデントを発見した場合、即座にCSIRTチーム（内線: 9999、メール: csirt@example.co.jp）に報告してください。報告内容は発見日時、影響範囲、対象システム、発見経緯を含めてください。インシデント対応レベルはL1（軽微）からL4（重大）の4段階で分類されます。L3以上の場合はCISOへのエスカレーションが自動的に行われます。\",\n    \"score\": 0.5799,\n    \"s3_uri\": \"s3://example-docs-bucket/incident-response.txt\"\n  },\n  {\n    \"title\": \"情報セキュリティ基本方針\",\n    \"category\": \"security\",\n    \"content\": \"全社員は情報セキュリティ研修を年1回受講する義務があります。パスワードは12文字以上で英数字記号を含めてください。多要素認証（MFA）は全システムで必須です。社外秘情報を含むファイルの外部送信は暗号化が必須で、DLP（情報漏洩防止）ツールにより監視されます。USBメモリなどの外部記憶媒体の使用は原則禁止です。\",\n  "
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解に含まれる全ての要素（社外秘、具体例、暗号化保存）を正確に網羅しており、適切なドキュメントを参照して具体的に回答しているため。"
+      },
+      "rag_time_seconds": 6.21
+    },
+    {
+      "id": "q09",
+      "question": "災害復旧のRTO（目標復旧時間）は何時間ですか？",
+      "category": "security",
+      "expected_doc": "災害復旧計画（DR計画）",
+      "ground_truth": "4時間以内。RPOは1時間以内。",
+      "answer": "災害復旧のRTO（目標復旧時間）は**4時間以内**です。\n\n参照: [災害復旧計画（DR計画）](s3://example-docs-bucket/disaster-recovery.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "災害復旧 RTO 目標復旧時間",
+            "category": "security"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"災害復旧計画（DR計画）\",\n    \"category\": \"security\",\n    \"content\": \"RPO（目標復旧時点）は1時間以内、RTO（目標復旧時間）は4時間以内とします。データベースは15分間隔でスナップショットを取得し、クロスリージョンレプリケーションを構成してください。年2回のDR訓練を実施し、実際のフェイルオーバーを検証してください。BCP（事業継続計画）は災害発生後30分以内に発動判断を行います。\",\n    \"score\": 0.8329,\n    \"s3_uri\": \"s3://example-docs-bucket/disaster-recovery.txt\"\n  },\n  {\n    \"title\": \"セキュリティインシデント対応手順\",\n    \"category\": \"security\",\n    \"content\": \"セキュリティインシデントを発見した場合、即座にCSIRTチーム（内線: 9999、メール: csirt@example.co.jp）に報告してください。報告内容は発見日時、影響範囲、対象システム、発見経緯を含めてください。インシデント対応レベルはL1（軽微）からL4（重大）の4段階で分類されます。L3以上の場合はCISOへのエスカレーションが自動的に行われます。\",\n    \"score\": 0.5669,\n    \"s3_uri\": \"s3://example-docs-bucket/incident-response.txt\"\n  },\n  {\n    \"title\": \"情報セキュリティ基本方針\",\n    \"category\": \"security\",\n    \"content\": \"全社員は情報セキュリティ研修を年1回受講する義務があります。パスワードは12文字以上で英数字記号を含めてください。多要素認証（MFA）は全システムで必須です。社外秘情報を含むファイルの外部送信は暗号化が必須で、DLP（情報漏洩防止）ツールにより監視されます。USBメモリなどの外部記憶媒体の使用は原則"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 3,
+        "reasoning": "質問に対する回答（RTO）は正確に記載されており、参照ドキュメントも適切です。ただし、正解に含まれているRPOの情報が欠落しています。"
+      },
+      "rag_time_seconds": 6.04
+    },
+    {
+      "id": "q10",
+      "question": "人事評価の評価軸とその比率を教えてください。",
+      "category": "hr",
+      "expected_doc": "人事評価制度",
+      "ground_truth": "業績（60%）と行動評価（40%）の2軸。",
+      "answer": "人事評価の評価軸とその比率は以下の通りです。\n\n- **業績**：60%\n- **行動評価**：40%\n\n参照：[人事評価制度](s3://example-docs-bucket/performance-review.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "人事評価の評価軸 比率",
+            "category": "hr"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"人事評価制度\",\n    \"category\": \"hr\",\n    \"content\": \"評価は半期ごと（4月・10月）に実施します。評価軸は業績（60%）と行動評価（40%）の2軸です。目標設定は期初にSMART基準で設定し、上長との1on1で合意してください。中間レビューを期中に1回実施し、進捗確認と軌道修正を行います。評価結果は5段階（S/A/B/C/D）で、昇給・賞与に反映されます。\",\n    \"score\": 0.7148,\n    \"s3_uri\": \"s3://example-docs-bucket/performance-review.txt\"\n  },\n  {\n    \"title\": \"新入社員オンボーディングチェックリスト\",\n    \"category\": \"hr\",\n    \"content\": \"入社初日: IDカード受領、PCセットアップ、メールアカウント設定。入社1週目: 全社オリエンテーション、部門紹介、メンター面談。入社1ヶ月: 情報セキュリティ研修、コンプライアンス研修、業務システム操作研修。入社3ヶ月: 試用期間面談、目標設定面談。各タスクの完了はHRシステムでチェックし、人事部が進捗を管理します。\",\n    \"score\": 0.5816,\n    \"s3_uri\": \"s3://example-docs-bucket/onboarding-checklist.txt\"\n  },\n  {\n    \"title\": \"休暇取得規程\",\n    \"category\": \"hr\",\n    \"content\": \"年次有給休暇は入社6ヶ月後に10日付与され、以降毎年1日ずつ加算されます（上限20日）。5日以上の連続休暇は2週間前までに申請してください。夏季休暇（3日）、年末年始休暇（12/29-1/3）は全社一斉取得です。傷病休暇は年5日まで有給で取得可能です。育児・介護休暇は法定通り取得できます。\",\n    \"score\": 0.533,\n    \"s3_uri\": \"s3://amplify-agenti"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解の内容と完全に一致しており、正しいドキュメントを参照して質問に的確に回答しているため。"
+      },
+      "rag_time_seconds": 5.83
+    },
+    {
+      "id": "q11",
+      "question": "システム監視でCPU使用率何%以上でCriticalアラートになりますか？",
+      "category": "engineering",
+      "expected_doc": "システム監視・アラート基準",
+      "ground_truth": "CPU使用率95%以上でCritical。",
+      "answer": "システム監視におけるCPU使用率のCriticalアラートは、**95%以上**で発生します。\n\nなお、80%以上でWarningアラートとなります。\n\n参照: [システム監視・アラート基準](s3://example-docs-bucket/monitoring-alerting.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "システム監視 CPU使用率 Criticalアラート 閾値",
+            "category": "engineering"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"システム監視・アラート基準\",\n    \"category\": \"engineering\",\n    \"content\": \"本番システムの監視はDatadogで一元管理します。アラートレベルはInfo、Warning、Critical、Emergencyの4段階です。CPU使用率80%以上でWarning、95%以上でCritical。エラーレート5%以上でWarning、10%以上でCritical。レスポンスタイム3秒以上でWarning。Critical以上は当番エンジニアに自動通知されます。Emergency時はインシデントコマンダーが招集されます。\",\n    \"score\": 0.8023,\n    \"s3_uri\": \"s3://example-docs-bucket/monitoring-alerting.txt\"\n  },\n  {\n    \"title\": \"コードレビューガイドライン\",\n    \"category\": \"engineering\",\n    \"content\": \"プルリクエストは最低1名のレビュアー承認が必要です。セキュリティに関わる変更は2名以上の承認が必要です。レビューは24時間以内に着手してください。指摘はNit（軽微）、Suggestion（提案）、Required（必須）の3段階で明示してください。CIが通過していないPRはマージできません。mainブランチへの直接pushは禁止されています。\",\n    \"score\": 0.5877,\n    \"s3_uri\": \"s3://example-docs-bucket/code-review-guidelines.txt\"\n  },\n  {\n    \"title\": \"本番デプロイ手順書\",\n    \"category\": \"engineering\",\n    \"content\": \"本番デプロイはデプロイカレンダーに登録し、チームリードの承認を得てから実施してください。デプロイ時間帯は平日10:00-16:00を推奨します。金曜日のデプロイは原則禁止です"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解の情報を正確に含んでおり、正しいドキュメントを参照している。さらにWarningアラートについても言及しており、有用な追加情報が含まれているため満点とする。"
+      },
+      "rag_time_seconds": 6.03
+    },
+    {
+      "id": "q12",
+      "question": "外部委託先の選定で必要な見積もりの最低数は？",
+      "category": "operations",
+      "expected_doc": "外部委託管理規程",
+      "ground_truth": "3社以上の見積比較が原則。",
+      "answer": "外部委託先の選定においては、原則として**3社以上**の見積比較が必要です。\n\n参照: [外部委託管理規程](s3://example-docs-bucket/vendor-management.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "外部委託先 選定 見積もり 最低数",
+            "category": "operations"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"外部委託管理規程\",\n    \"category\": \"operations\",\n    \"content\": \"外部委託先の選定は3社以上の見積比較が原則です。委託先にはNDAの締結が必須で、情報セキュリティチェックシート（年1回）の提出を求めてください。SLAを契約書に明記し、四半期ごとにパフォーマンスレビューを実施します。委託終了時はデータ消去証明書の提出を求め、アクセス権限を即座に削除してください。\",\n    \"score\": 0.7741,\n    \"s3_uri\": \"s3://example-docs-bucket/vendor-management.txt\"\n  },\n  {\n    \"title\": \"コンプライアンス研修要項\",\n    \"category\": \"operations\",\n    \"content\": \"全社員は以下の研修を年1回受講する義務があります。情報セキュリティ研修（必須）、ハラスメント防止研修（必須）、インサイダー取引防止研修（管理職必須）、個人情報保護研修（個人情報取扱者必須）。研修未受講者はシステムアクセスが制限される場合があります。受講記録はLMS（学習管理システム）で管理されます。\",\n    \"score\": 0.5647,\n    \"s3_uri\": \"s3://example-docs-bucket/compliance-training.txt\"\n  },\n  {\n    \"title\": \"会議運営ガイドライン\",\n    \"category\": \"operations\",\n    \"content\": \"会議は30分を基本単位とし、必要に応じて延長してください。アジェンダは前日までに共有し、議事録は24時間以内にConfluenceに投稿してください。定例会議は四半期ごとに必要性を見直してください。オンライン参加者がいる場合はカメラONを推奨します。会議の最後に必ずアクションアイテムと担当者を確認してください。\",\n    \"score\": 0.5532,\n    \"s3_uri\": \""
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解の内容を完全に網羅しており、適切なドキュメントに基づいた正確な回答であるため。"
+      },
+      "rag_time_seconds": 5.78
+    },
+    {
+      "id": "q13",
+      "question": "Gitでホットフィックスはどのブランチから作成しますか？",
+      "category": "engineering",
+      "expected_doc": "Git ブランチ戦略",
+      "ground_truth": "mainブランチからhotfix/ブランチを作成する。",
+      "answer": "社内の「Git ブランチ戦略」に基づき、ホットフィックスは **hotfix/ブランチ** で対応し、修正後は **mainブランチとdevelopブランチの両方に即座にマージ** してください。",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "Git ホットフィックス ブランチ 作成元",
+            "category": "engineering"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"Git ブランチ戦略\",\n    \"category\": \"engineering\",\n    \"content\": \"GitFlowベースのブランチ戦略を採用します。mainブランチは常にデプロイ可能な状態を維持してください。機能開発はfeature/ブランチで行い、developブランチにマージします。リリース準備はrelease/ブランチで行い、検証完了後にmainとdevelopにマージします。ホットフィックスはhotfix/ブランチで対応し、mainとdevelopに即座にマージしてください。\",\n    \"score\": 0.7282,\n    \"s3_uri\": \"s3://example-docs-bucket/git-workflow.txt\"\n  },\n  {\n    \"title\": \"コードレビューガイドライン\",\n    \"category\": \"engineering\",\n    \"content\": \"プルリクエストは最低1名のレビュアー承認が必要です。セキュリティに関わる変更は2名以上の承認が必要です。レビューは24時間以内に着手してください。指摘はNit（軽微）、Suggestion（提案）、Required（必須）の3段階で明示してください。CIが通過していないPRはマージできません。mainブランチへの直接pushは禁止されています。\",\n    \"score\": 0.5695,\n    \"s3_uri\": \"s3://example-docs-bucket/code-review-guidelines.txt\"\n  },\n  {\n    \"title\": \"本番デプロイ手順書\",\n    \"category\": \"engineering\",\n    \"content\": \"本番デプロイはデプロイカレンダーに登録し、チームリードの承認を得てから実施してください。デプロイ時間帯は平日10:00-16:00を推奨します。金曜日のデプロイは原則禁止です。デプロイ前にステージング環境での動作確認を完了させてください。ロールバ"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 3,
+        "reasoning": "忠実性と関連性は極めて高く、参照ドキュメントに基づいた正確な回答です。しかし、質問の核心である「どのブランチから作成するか」という起点（mainブランチから）への直接的な言及が欠落しており、作成後の処理に焦点が当たっているため、完全性は3としています。"
+      },
+      "rag_time_seconds": 7.0
+    },
+    {
+      "id": "q14",
+      "question": "海外出張の申請は何ヶ月前までに必要ですか？",
+      "category": "finance",
+      "expected_doc": "出張規程",
+      "ground_truth": "1ヶ月前までに申請。部門長および海外安全管理室の承認が必要。",
+      "answer": "海外出張の申請は、**1ヶ月前まで**に必要です。また、申請にあたっては部門長および海外安全管理室の承認が必要です。\n\n参照: [出張規程](s3://example-docs-bucket/travel-policy.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "海外出張の申請 期限 何ヶ月前",
+            "category": "finance"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"出張規程\",\n    \"category\": \"finance\",\n    \"content\": \"国内出張は1週間前までに出張申請を提出してください。交通手段は新幹線普通車が標準です。宿泊費は1泊12,000円を上限とし、都内は原則日帰りとします。海外出張は1ヶ月前までに申請し、部門長および海外安全管理室の承認が必要です。出張報告書は帰社後3営業日以内に提出してください。\",\n    \"score\": 0.7056,\n    \"s3_uri\": \"s3://example-docs-bucket/travel-policy.txt\"\n  },\n  {\n    \"title\": \"予算策定プロセス\",\n    \"category\": \"finance\",\n    \"content\": \"年間予算は毎年11月に策定を開始し、12月末に取締役会承認を経て確定します。各部門は前年実績比±10%を目安に予算案を提出してください。四半期ごとに予実管理レビューを実施し、予算消化率80%を超えた項目は経営企画部に報告が必要です。予備費は年間予算の5%を確保します。\",\n    \"score\": 0.589,\n    \"s3_uri\": \"s3://example-docs-bucket/budget-planning.txt\"\n  },\n  {\n    \"title\": \"経費精算ガイドライン\",\n    \"category\": \"finance\",\n    \"content\": \"経費精算は月末締め翌月5日までに申請してください。交通費は実費精算が原則ですが、タクシー利用は1回5,000円以上の場合は事前承認が必要です。接待交際費は部長以上の事前承認が必須で、1人あたり10,000円を上限とします。領収書の原本はPDF化してシステムにアップロードし、原本は経理部へ提出してください。\",\n    \"score\": 0.5831,\n    \"s3_uri\": \"s3://example-docs-bucket"
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 5,
+        "reasoning": "正解の内容を完全に網羅しており、正しいドキュメントを参照して正確に回答しています。"
+      },
+      "rag_time_seconds": 6.06
+    },
+    {
+      "id": "q15",
+      "question": "パスワードの最低文字数と必要な文字種を教えてください。",
+      "category": "security",
+      "expected_doc": "情報セキュリティ基本方針",
+      "ground_truth": "12文字以上で英数字記号を含める。MFAも全システムで必須。",
+      "answer": "パスワードの要件は以下の通りです。\n\n*   **最低文字数**: 12文字以上\n*   **必要な文字種**: 英数字および記号を含める必要があります\n\n参照: [情報セキュリティ基本方針](s3://example-docs-bucket/info-security-basics.txt)",
+      "tool_calls": [
+        {
+          "name": "knowledge_search",
+          "input": {
+            "query": "パスワードの最低文字数 必要な文字種",
+            "category": "security"
+          },
+          "status": "done",
+          "result": "[\n  {\n    \"title\": \"情報セキュリティ基本方針\",\n    \"category\": \"security\",\n    \"content\": \"全社員は情報セキュリティ研修を年1回受講する義務があります。パスワードは12文字以上で英数字記号を含めてください。多要素認証（MFA）は全システムで必須です。社外秘情報を含むファイルの外部送信は暗号化が必須で、DLP（情報漏洩防止）ツールにより監視されます。USBメモリなどの外部記憶媒体の使用は原則禁止です。\",\n    \"score\": 0.6621,\n    \"s3_uri\": \"s3://example-docs-bucket/info-security-basics.txt\"\n  },\n  {\n    \"title\": \"データ分類基準\",\n    \"category\": \"security\",\n    \"content\": \"データは4段階に分類されます。レベル1（公開）: プレスリリース、公開ブログ記事。レベル2（社内）: 社内Wiki、議事録。レベル3（社外秘）: 顧客情報、契約書、技術仕様書。レベル4（極秘）: 経営戦略、M&A情報、未公開財務情報。レベル3以上のデータは暗号化保存が必須で、アクセスログが記録されます。\",\n    \"score\": 0.5706,\n    \"s3_uri\": \"s3://example-docs-bucket/data-classification.txt\"\n  },\n  {\n    \"title\": \"災害復旧計画（DR計画）\",\n    \"category\": \"security\",\n    \"content\": \"RPO（目標復旧時点）は1時間以内、RTO（目標復旧時間）は4時間以内とします。データベースは15分間隔でスナップショットを取得し、クロスリージョンレプリケーションを構成してください。年2回のDR訓練を実施し、実際のフェイルオーバーを検証してください。BCP（事業継続計画）は災害発生後30分以内に発動判断を行います。\",\n    \"score\": 0.5374,\n    \""
+        }
+      ],
+      "evaluation": {
+        "faithfulness": 5,
+        "relevancy": 5,
+        "completeness": 3,
+        "reasoning": "パスワードの文字数と文字種については正確に回答し、正しいドキュメントを参照していますが、正解に含まれているMFA必須の情報が欠落しています。"
+      },
+      "rag_time_seconds": 5.69
+    }
+  ]
+}
