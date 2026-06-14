@@ -262,6 +262,47 @@ const feedbackFn = new lambda.Function(ragStack, "FeedbackFunction", {
 
 feedbackTable.grantWriteData(feedbackFn);
 
+const sessionMetadataTable = new dynamodb.Table(ragStack, "SessionMetadataTable", {
+  partitionKey: { name: "pk", type: dynamodb.AttributeType.STRING },
+  sortKey: { name: "sk", type: dynamodb.AttributeType.STRING },
+  billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+  timeToLiveAttribute: "ttl",
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+});
+
+sessionMetadataTable.addGlobalSecondaryIndex({
+  indexName: "ByUpdatedAt",
+  partitionKey: { name: "gsi1pk", type: dynamodb.AttributeType.STRING },
+  sortKey: { name: "gsi1sk", type: dynamodb.AttributeType.STRING },
+});
+
+const memoryFn = new lambda.Function(ragStack, "MemoryHistoryFunction", {
+  runtime: lambda.Runtime.PYTHON_3_13,
+  handler: "index.handler",
+  code: lambda.Code.fromAsset(join(__dirname, "functions/memory")),
+  environment: {
+    MEMORY_ID: memory.memoryId,
+    SESSION_TABLE_NAME: sessionMetadataTable.tableName,
+  },
+  timeout: cdk.Duration.seconds(15),
+});
+
+sessionMetadataTable.grantReadWriteData(memoryFn);
+
+memoryFn.addToRolePolicy(
+  new iam.PolicyStatement({
+    effect: iam.Effect.ALLOW,
+    actions: [
+      "bedrock-agentcore:ListEvents",
+      "bedrock-agentcore:DeleteEvent",
+    ],
+    resources: [
+      memory.memoryArn,
+      `${memory.memoryArn}/*`,
+    ],
+  }),
+);
+
 const feedbackApi = new apigateway.RestApi(ragStack, "FeedbackApi", {
   restApiName: "agentic-rag-feedback",
   deployOptions: {
@@ -300,26 +341,47 @@ feedbackResource.addMethod("POST", new apigateway.LambdaIntegration(feedbackFn),
   authorizationType: apigateway.AuthorizationType.COGNITO,
 });
 
+const memoryResource = feedbackApi.root.addResource("memory");
+const memorySessionsResource = memoryResource.addResource("sessions");
+const memorySessionResource = memorySessionsResource.addResource("{sessionId}");
+const memorySessionEventsResource = memorySessionResource.addResource("events");
+
+memorySessionsResource.addCorsPreflight({
+  allowOrigins: apigateway.Cors.ALL_ORIGINS,
+  allowMethods: ["GET", "OPTIONS"],
+  allowHeaders: ["Authorization", "Content-Type"],
+  maxAge: cdk.Duration.hours(1),
+});
+memorySessionResource.addCorsPreflight({
+  allowOrigins: apigateway.Cors.ALL_ORIGINS,
+  allowMethods: ["POST", "DELETE", "OPTIONS"],
+  allowHeaders: ["Authorization", "Content-Type"],
+  maxAge: cdk.Duration.hours(1),
+});
+memorySessionEventsResource.addCorsPreflight({
+  allowOrigins: apigateway.Cors.ALL_ORIGINS,
+  allowMethods: ["GET", "OPTIONS"],
+  allowHeaders: ["Authorization", "Content-Type"],
+  maxAge: cdk.Duration.hours(1),
+});
+
+const memoryIntegration = new apigateway.LambdaIntegration(memoryFn);
+const cognitoMethodOptions = {
+  authorizer: feedbackAuthorizer,
+  authorizationType: apigateway.AuthorizationType.COGNITO,
+};
+
+memorySessionsResource.addMethod("GET", memoryIntegration, cognitoMethodOptions);
+memorySessionEventsResource.addMethod("GET", memoryIntegration, cognitoMethodOptions);
+memorySessionResource.addMethod("POST", memoryIntegration, cognitoMethodOptions);
+memorySessionResource.addMethod("DELETE", memoryIntegration, cognitoMethodOptions);
+
 const authenticatedPolicy = new iam.Policy(ragStack, "AuthenticatedRolePolicy", {
   statements: [
     new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: ["s3:GetObject"],
       resources: [`${docsBucket.bucketArn}/*`],
-    }),
-    new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: [
-        "bedrock-agentcore:GetMemory",
-        "bedrock-agentcore:ListMemoryRecords",
-        "bedrock-agentcore:GetMemoryRecord",
-        "bedrock-agentcore:ListMemorySessions",
-        "bedrock-agentcore:ListMemoryEvents",
-      ],
-      resources: [
-        memory.memoryArn,
-        `${memory.memoryArn}/*`,
-      ],
     }),
   ],
 });
@@ -368,7 +430,9 @@ if (parameters.enableGateway) {
       aws_region: ragStack.region,
       docs_bucket_name: docsBucket.bucketName,
       feedback_url: feedbackApi.urlForPath("/feedback"),
+      memory_url: feedbackApi.urlForPath("/memory"),
       feedback_table_name: feedbackTable.tableName,
+      session_metadata_table_name: sessionMetadataTable.tableName,
       gateway_id: gateway.gatewayId,
       gateway_url: gateway.gatewayUrl ?? "",
     },
@@ -382,7 +446,9 @@ if (parameters.enableGateway) {
       aws_region: ragStack.region,
       docs_bucket_name: docsBucket.bucketName,
       feedback_url: feedbackApi.urlForPath("/feedback"),
+      memory_url: feedbackApi.urlForPath("/memory"),
       feedback_table_name: feedbackTable.tableName,
+      session_metadata_table_name: sessionMetadataTable.tableName,
     },
   });
 }

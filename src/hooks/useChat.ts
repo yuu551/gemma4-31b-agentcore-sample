@@ -266,13 +266,14 @@ async function readAgentRuntimeStream(
   return parseAgentRuntimeResponse(raw);
 }
 
-async function getAccessToken(forceRefresh = false): Promise<string> {
+async function getAuthSession(forceRefresh = false) {
   const session = await fetchAuthSession({ forceRefresh });
   const token = session.tokens?.accessToken?.toString();
   if (!token) {
     throw new Error("Cognito access token is not available");
   }
-  return token;
+  const userId = session.tokens?.idToken?.payload?.sub as string | undefined;
+  return { token, userId: userId ?? "anonymous" };
 }
 
 function runtimeInvokeUrl(runtimeArn: string): string {
@@ -308,15 +309,17 @@ async function invokeAgent(
     return result;
   }
 
+  let auth = await getAuthSession();
   const payload = JSON.stringify({
     prompt,
     sessionId,
-    userId: "demo-user",
+    userId: auth.userId,
   });
 
-  let response = await invokeRuntime(RUNTIME_ARN, sessionId, payload, await getAccessToken());
+  let response = await invokeRuntime(RUNTIME_ARN, sessionId, payload, auth.token);
   if (response.status === 401) {
-    response = await invokeRuntime(RUNTIME_ARN, sessionId, payload, await getAccessToken(true));
+    auth = await getAuthSession(true);
+    response = await invokeRuntime(RUNTIME_ARN, sessionId, payload, auth.token);
   }
 
   if (!response.ok) {

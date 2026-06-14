@@ -13,6 +13,7 @@ import type { ChatSession } from "../types/chat";
 interface Props {
   sessions: ChatSession[];
   activeSessionId: string | null;
+  isLoadingSessions: boolean;
   onSelectSession: (id: string) => void;
   onNewSession: () => void;
   onDeleteSession: (id: string) => void;
@@ -33,6 +34,7 @@ function formatRelativeTime(timestamp: number): string {
 export function Sidebar({
   sessions,
   activeSessionId,
+  isLoadingSessions,
   onSelectSession,
   onNewSession,
   onDeleteSession,
@@ -79,11 +81,24 @@ export function Sidebar({
 
       <div className="flex items-center justify-between px-5 pb-2 pt-1 text-[11px] font-semibold tracking-[0.12em] text-text-muted">
         <span>履歴</span>
-        <span>{sessions.length}</span>
+        {!isLoadingSessions && <span>{sessions.length}</span>}
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 pb-4">
-        {sessions.length === 0 && (
+        {isLoadingSessions && (
+          <div className="space-y-2 px-2 pt-2">
+            {[0, 1, 2].map((item) => (
+              <div
+                key={item}
+                className="rounded-2xl border border-surface-600/50 bg-surface-800/50 px-3 py-3"
+              >
+                <div className="h-3 w-4/5 animate-pulse rounded-full bg-surface-600/70" />
+                <div className="mt-2 h-2 w-1/3 animate-pulse rounded-full bg-surface-600/50" />
+              </div>
+            ))}
+          </div>
+        )}
+        {!isLoadingSessions && sessions.length === 0 && (
           <div className="mx-2 mt-4 rounded-2xl border border-dashed border-surface-600 px-4 py-8 text-center">
             <Archive className="mx-auto mb-3 h-6 w-6 text-text-muted" />
             <p className="text-xs font-medium text-text-secondary">履歴はまだありません</p>
@@ -92,7 +107,7 @@ export function Sidebar({
             </p>
           </div>
         )}
-        {sessions.map((session) => (
+        {!isLoadingSessions && sessions.map((session) => (
           <div
             key={session.id}
             className={`group mb-1 flex items-start gap-2 rounded-2xl px-2 py-2 transition duration-200

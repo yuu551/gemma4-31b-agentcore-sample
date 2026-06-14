@@ -189,6 +189,7 @@ export default function App() {
   const {
     sessions,
     activeMessages,
+    isLoadingSessions,
     createSession,
     updateSession,
     deleteSession,
@@ -235,9 +236,16 @@ export default function App() {
     setCurrentSessionId(id);
   };
 
-  const handleSelectSession = (id: string) => {
-    selectSession(id);
+  const handleSelectSession = async (id: string) => {
+    await selectSession(id);
     setCurrentSessionId(id);
+  };
+
+  const handleDeleteSession = async (id: string) => {
+    await deleteSession(id);
+    if (currentSessionId === id) {
+      setCurrentSessionId(null);
+    }
   };
 
   const handleSend = (content: string) => {
@@ -252,9 +260,10 @@ export default function App() {
         <Sidebar
           sessions={sessions}
           activeSessionId={currentSessionId}
+          isLoadingSessions={isLoadingSessions}
           onSelectSession={handleSelectSession}
           onNewSession={handleNewSession}
-          onDeleteSession={deleteSession}
+          onDeleteSession={handleDeleteSession}
           onClose={() => setIsSidebarOpen(false)}
         />
       )}

@@ -20,6 +20,7 @@ export interface ChatSession {
   title: string;
   lastMessage: string;
   timestamp: number;
+  messages?: ChatMessage[];
 }
 
 export type Category =
