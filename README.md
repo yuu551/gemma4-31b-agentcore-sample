@@ -152,6 +152,51 @@ export const parameters = {
 
 以降は main ブランチに push するたびに自動デプロイされます。設定を変更したい場合は `parameters.ts` を編集して push するだけです。
 
+## ドキュメントの追加・更新
+
+このサンプルには架空の業務ドキュメントが 20件入っていますが、自分たちのドキュメントに差し替えて使えます。
+
+### ドキュメントの形式
+
+`seed/docs/` に、テキストファイルとメタデータファイルをペアで配置します。
+
+```
+seed/docs/
+├── my-document.txt                  # ドキュメント本文
+├── my-document.txt.metadata.json    # メタデータ（カテゴリ・タイトル）
+```
+
+メタデータファイルの形式は以下の通りです。
+
+```json
+{
+  "metadataAttributes": {
+    "category": {
+      "value": { "type": "STRING", "stringValue": "hr" }
+    },
+    "title": {
+      "value": { "type": "STRING", "stringValue": "ドキュメントのタイトル" }
+    }
+  }
+}
+```
+
+`category` はフロントエンドのカテゴリフィルタに対応しています。現在のカテゴリは `hr`（人事）、`finance`（経理）、`security`（セキュリティ）、`development`（開発）、`operations`（運用）の 5 種類です。カテゴリを追加する場合は `src/types/chat.ts` の `CATEGORIES` 定義も合わせて更新してください。
+
+### 反映方法
+
+ドキュメントの追加・更新後に再デプロイすると、CDK の `BucketDeployment` が S3 にファイルをアップロードし、カスタムリソースが KB の Ingestion Job を自動実行します。
+
+```bash
+npx ampx sandbox --once
+```
+
+既存のサンプルドキュメントを残す必要がなければ、`seed/docs/` の中身をすべて差し替えて構いません。
+
+### 評価セットの更新
+
+ドキュメントを差し替えた場合は、`eval/questions.json` のテスト質問も合わせて書き換えてください。各質問には期待される回答（`ground_truth`）と参照ドキュメント名（`expected_doc`）を指定します。
+
 ### フロントエンドの開発サーバー
 
 ```bash
