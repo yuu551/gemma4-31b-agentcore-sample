@@ -141,3 +141,220 @@ button:disabled {
   background: var(--surface-500);
   border-radius: 3px;
 }
+
+/* --- Table styling (markdown / Streamdown) --- */
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  border: 1px solid var(--surface-600);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+thead {
+  background: linear-gradient(
+    180deg,
+    var(--surface-800) 0%,
+    var(--surface-850) 100%
+  );
+}
+
+th {
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--surface-600);
+}
+
+th:first-child {
+  color: var(--accent);
+}
+
+td {
+  padding: 0.5rem 0.875rem;
+  border-bottom: 1px solid var(--surface-700);
+  color: var(--text-secondary);
+  transition: color 150ms;
+}
+
+td:first-child {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background-color 200ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+tbody tr:hover {
+  background-color: var(--surface-850);
+}
+
+tbody tr:hover td {
+  color: var(--text-primary);
+}
+
+/* Streamdown table wrapper */
+
+[data-streamdown="table-wrapper"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--surface-600);
+  background-color: var(--surface-850);
+  box-shadow: var(--shadow-subtle);
+}
+
+[data-streamdown="table-wrapper"] > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0 0.25rem;
+}
+
+[data-streamdown="table-wrapper"] > div:last-child {
+  overflow-x: auto;
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid var(--surface-600);
+  background-color: var(--surface-900);
+}
+
+[data-streamdown="table-wrapper"] table {
+  border: none;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+[data-streamdown="table-wrapper"] button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: 0.3rem 0.625rem;
+  border-radius: 8px;
+  border: 1px solid var(--surface-600);
+  background-color: var(--surface-800);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 180ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+[data-streamdown="table-wrapper"] button:hover {
+  background-color: var(--surface-700);
+  border-color: var(--surface-500);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-subtle);
+}
+
+[data-streamdown="table-wrapper"] button:active {
+  transform: translateY(0);
+}
+
+/* Streamdown table fullscreen */
+
+[data-streamdown="table-fullscreen"] {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-900);
+  padding: 1rem;
+}
+
+[data-streamdown="table-fullscreen"] > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--surface-600);
+}
+
+[data-streamdown="table-fullscreen"] > div:last-child {
+  flex: 1;
+  overflow: auto;
+}
+
+[data-streamdown="table-fullscreen"] table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--surface-600);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+[data-streamdown="table-fullscreen"] thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+[data-streamdown="table-fullscreen"] button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  padding: 0.3rem 0.625rem;
+  border-radius: 8px;
+  border: 1px solid var(--surface-600);
+  background-color: var(--surface-800);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 180ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+[data-streamdown="table-fullscreen"] button:hover {
+  background-color: var(--surface-700);
+  border-color: var(--surface-500);
+  color: var(--text-primary);
+}
+
+@media (max-width: 480px) {
+  table {
+    font-size: 0.75rem;
+  }
+
+  th {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.6875rem;
+  }
+
+  td {
+    padding: 0.3rem 0.5rem;
+  }
+
+  [data-streamdown="table-wrapper"] {
+    padding: 0.375rem;
+    border-radius: 12px;
+  }
+
+  [data-streamdown="table-wrapper"] button {
+    font-size: 0.625rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
